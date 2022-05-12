@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -36,7 +38,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion v_compose
     }
     packagingOptions {
         resources {
@@ -47,15 +49,51 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation "androidx.core:core-ktx:$v_core_ktx"
+    implementation "androidx.compose.ui:ui:$v_compose"
+    implementation "androidx.compose.material:material:$v_compose"
+    implementation "androidx.compose.ui:ui-tooling-preview:$v_compose"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$v_lifecycle_runtime_ktx"
+    implementation "androidx.activity:activity-compose:$v_activity_compose"
+
+    // Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:$v_hilt"
+    implementation "androidx.hilt:hilt-navigation-compose:$v_hilt_navigation_compose"
+    kapt "com.google.dagger:hilt-compiler:$v_hilt"
+
+    //Room
+    implementation "androidx.room:room-ktx:$v_room"
+    implementation "androidx.room:room-runtime:$v_room"
+    kapt "androidx.room:room-compiler:$v_room"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$v_lifecycle_vm_ktx"
+
+    //retrofit & Moshi Convertor
+    implementation "com.squareup.retrofit2:retrofit:$v_retrofit"
+    implementation "com.squareup.moshi:moshi-kotlin:$v_moshi"
+    implementation "com.squareup.retrofit2:converter-moshi:$v_retrofit"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$v_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$v_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$v_coroutines"
+
+    //hilt viewmodel
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$v_hilt_lifecycle_viewmodel"
+
+    //navigation
+    implementation "androidx.navigation:navigation-compose:$v_navigation_compose"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$v_timber"
+
+    // ConstraintLayout for Jetpack Compose
+    implementation "androidx.constraintlayout:constraintlayout-compose:$v_constraint_layout"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$v_compose"
+    debugImplementation "androidx.compose.ui:ui-tooling:$v_compose"
 }
