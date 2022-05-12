@@ -19,6 +19,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        buildConfigField 'String', 'BASE_URL', '"https://run.mocky.io/"'
     }
 
     buildTypes {
@@ -69,10 +70,9 @@ dependencies {
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$v_lifecycle_vm_ktx"
 
-    //retrofit & Moshi Convertor
     implementation "com.squareup.retrofit2:retrofit:$v_retrofit"
-    implementation "com.squareup.moshi:moshi-kotlin:$v_moshi"
-    implementation "com.squareup.retrofit2:converter-moshi:$v_retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$v_retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$v_okhttp_logging"
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$v_coroutines"

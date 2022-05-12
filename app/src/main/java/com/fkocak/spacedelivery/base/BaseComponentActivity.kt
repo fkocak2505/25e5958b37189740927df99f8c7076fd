@@ -26,6 +26,11 @@ abstract class BaseComponentActivity : ComponentActivity() {
 
     }
 
+    //==============================================================================================
+    /**
+     * Hide Status Bar and SystemUI..
+     */
+    //==============================================================================================
     private fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, window.decorView).let { controller ->
@@ -40,5 +45,10 @@ abstract class BaseComponentActivity : ComponentActivity() {
         }
     }
 
+    //==============================================================================================
+    /**
+     * First Starting composable value..
+     */
+    //==============================================================================================
     abstract val startCompose: @Composable () -> Unit
 }

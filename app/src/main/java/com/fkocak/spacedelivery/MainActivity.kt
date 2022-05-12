@@ -12,10 +12,10 @@ class MainActivity : BaseComponentActivity() {
 
 
     override val startCompose: @Composable () -> Unit
-        get() = { beginComposeUI() }
+        get() = { BeginComposeUI() }
 
     @Composable
-    fun beginComposeUI() {
+    fun BeginComposeUI() {
 
         NavigationController()
 
@@ -25,7 +25,7 @@ class MainActivity : BaseComponentActivity() {
     @Composable
     fun DefaultPreview() {
         SpaceDeliveryTheme {
-            beginComposeUI()
+            BeginComposeUI()
         }
     }
 }
