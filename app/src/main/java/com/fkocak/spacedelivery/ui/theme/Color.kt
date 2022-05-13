@@ -8,3 +8,5 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val BACKGROUND_HALF_WHITE = Color(0xFFedf1f4)
+val TEXT_COLOR_BLACK = Color(0xFF202124)
+val TEXT_COLOR_GREY = Color(0xFF666F78)

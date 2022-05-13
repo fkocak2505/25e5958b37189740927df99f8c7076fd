@@ -21,11 +21,11 @@ class MainActivity : BaseComponentActivity() {
 
     }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun DefaultPreview() {
-        SpaceDeliveryTheme {
-            BeginComposeUI()
-        }
-    }
+//    @Preview(showBackground = true)
+//    @Composable
+//    fun DefaultPreview() {
+//        SpaceDeliveryTheme {
+//            BeginComposeUI()
+//        }
+//    }
 }
