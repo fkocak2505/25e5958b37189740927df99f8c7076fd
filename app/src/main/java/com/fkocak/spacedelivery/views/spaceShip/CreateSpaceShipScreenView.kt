@@ -155,6 +155,10 @@ fun CreateSpaceShipScreenView(
         )
 
         SDButton(
+            text = sButonText,
+            color = LOGO_DARK_BLUE,
+            textColor = Color.White,
+            style = TypeOfFont.poppinsMediumStyle(TEXT_SIZE_14, TextAlign.Center),
             modifier = Modifier
                 .constrainAs(bGoAnotherView) {
                     top.linkTo(sCapacity.bottom, MARGIN_20)
@@ -194,8 +198,10 @@ private fun checkAllObligatoryField(
                 durability = sShipDurability,
                 speed = sShipSpeed,
                 capacity = sShipCapacity,
-                damageCapacity = DAMAGE_CAPACITY
+                damageCapacity = sShipDamageCapacity
             )
+
+            calculateFormul()
 
             onGoNextScreenView.invoke()
         }

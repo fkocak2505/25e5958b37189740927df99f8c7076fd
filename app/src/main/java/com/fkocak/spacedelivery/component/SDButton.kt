@@ -6,17 +6,16 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.TextStyle
 import com.fkocak.spacedelivery.component.text.SDText
-import com.fkocak.spacedelivery.ui.theme.LOGO_DARK_BLUE
 import com.fkocak.spacedelivery.ui.theme.MARGIN_15
-import com.fkocak.spacedelivery.ui.theme.TEXT_SIZE_14
-import com.fkocak.spacedelivery.ui.theme.TypeOfFont
-import com.fkocak.spacedelivery.utils.stateVals.sButonText
 
 @Composable
 fun SDButton(
+    text: String,
+    color: Color,
+    textColor: Color,
+    style: TextStyle,
     modifier: Modifier,
     onButtonClickListener: () -> Unit
 ) {
@@ -24,13 +23,13 @@ fun SDButton(
     Button(
         onClick = { onButtonClickListener.invoke() },
         modifier = modifier,
-        colors = ButtonDefaults.buttonColors(backgroundColor = LOGO_DARK_BLUE)
+        colors = ButtonDefaults.buttonColors(backgroundColor = color)
     ) {
         SDText(
-            text = sButonText,
-            style = TypeOfFont.poppinsMediumStyle(TEXT_SIZE_14, TextAlign.Center),
+            text = text,
+            style = style,
             maxLine = 1,
-            color = Color.White,
+            color = textColor,
             modifier = Modifier.padding(start = MARGIN_15, end = MARGIN_15)
         )
     }
