@@ -1,8 +1,10 @@
 package com.fkocak.spacedelivery.utils.stateVals
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
 
 /**
@@ -45,4 +47,9 @@ var sShipInfoData: ShipInfo? by mutableStateOf(null)
  * Button Text..
  */
 var sButonText: String by mutableStateOf("Devam Et")
+
+/**
+ *
+ */
+var sAllStationData = mutableStateListOf<Response4Stations>().toMutableList()
 

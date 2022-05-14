@@ -20,11 +20,13 @@ import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.ui.theme.Purple200
 import com.fkocak.spacedelivery.utils.ApiStateView
+import com.fkocak.spacedelivery.utils.stateVals.sAllStationData
 import com.fkocak.spacedelivery.utils.stateVals.sShipInfoData
 import com.fkocak.spacedelivery.views.navigationScreen.NavigationScreenView
 import com.fkocak.spacedelivery.views.spaceShip.CreateSpaceShipScreenView
 import com.fkocak.spacedelivery.views.splash.SplashScreenView
 import com.fkocak.spacedelivery.vm.StationsVM
+import timber.log.Timber
 
 @Composable
 fun NavigationController() {
@@ -39,7 +41,7 @@ fun NavigationController() {
         startDestination = SPLASH.routes
     ) {
 
-        stationsVM.getAllStationsFromApi()
+        stationsVM.getAllStationsFromRoomDB()
         stationsVM.getSpaceShipInfoFromRoomDB()
 
         // Splash Compose
@@ -73,21 +75,38 @@ private fun prepareVMListener(stationsVM: StationsVM) {
 
     var context = LocalContext.current
 
-    when (stationsVM.state.value) {
+    when (stationsVM.sAllStationDataResultFromDB.value) {
+        is ApiStateView.Success -> {
+            val allStationData =
+                ((stationsVM.sAllStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Response4Stations>
+
+            sAllStationData = allStationData
+
+        }
+        is ApiStateView.Error -> {
+            Timber.i("All Station data is null from DB. Requesting Api Now..")
+            stationsVM.getAllStationsFromApi()
+        }
+        else -> {}
+    }
+
+    when (stationsVM.sAllStationDataResult.value) {
         is ApiStateView.Loading -> {
             SpaceDeliveryProgressBar()
         }
         is ApiStateView.Success -> {
-            val response =
-                ((stationsVM.state.value) as ApiStateView.Success).any as MutableList<Response4Stations>
+            val allStationData =
+                ((stationsVM.sAllStationDataResult.value) as ApiStateView.Success).any as MutableList<Response4Stations>
+
+            sAllStationData = allStationData
 
         }
         is ApiStateView.Error -> {
-            val msg = ((stationsVM.state.value) as ApiStateView.Error).error
+            val msg = ((stationsVM.sAllStationDataResult.value) as ApiStateView.Error).error
         }
     }
 
-    when(stationsVM.shipInfoState.value){
+    when (stationsVM.shipInfoState.value) {
         is ApiStateView.Success -> {
             val shipInfo =
                 ((stationsVM.shipInfoState.value) as ApiStateView.Success).any as ShipInfo

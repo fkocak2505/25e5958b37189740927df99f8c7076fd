@@ -22,6 +22,8 @@ val MARGIN_10 = 10.dp
 val MARGIN_15 = 15.dp
 val MARGIN_20 = 20.dp
 val MARGIN_56 = 56.dp
+val MARGIN_60 = 60.dp
+val MARGIN_100 = 100.dp
 
 /**
  * Border Size

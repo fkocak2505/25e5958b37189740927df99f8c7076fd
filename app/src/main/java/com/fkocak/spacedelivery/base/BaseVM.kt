@@ -10,9 +10,14 @@ import kotlinx.coroutines.Job
 abstract class BaseVM : ViewModel() {
 
     /**
-     * Using State for handle data, error or loading status inside composable function..
+     * Using State for handle data from station Api
      */
-    val state: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
+    val sAllStationDataResult: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
+
+    /**
+     * Using State for handle data from station RoomDB
+     */
+    val sAllStationDataResultFromDB: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
 
     /**
      * Using State for handle shipsData is inserted successfully

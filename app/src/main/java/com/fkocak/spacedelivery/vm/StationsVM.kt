@@ -27,10 +27,10 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
                 withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                     Timber.i("Working on ---> ${Thread.currentThread().name} & handle data and check for null..")
                     allStation?.let {
-                        state.value = ApiStateView.Loading(boolean = false)
-                        state.value = ApiStateView.Success(it)
+                        sAllStationDataResult.value = ApiStateView.Loading(boolean = false)
+                        sAllStationDataResult.value = ApiStateView.Success(it)
                     } ?: run {
-                        state.value = ApiStateView.Error(error = error)
+                        sAllStationDataResult.value = ApiStateView.Error(error = error)
                     }
                 }
             }
@@ -47,9 +47,9 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
             val listOfAllStation = spaceDeliveryRepositories.fetchStationsFromCached()
             withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                 if (listOfAllStation.isNotEmpty())
-                    state.value = ApiStateView.Success(listOfAllStation)
+                    sAllStationDataResultFromDB.value = ApiStateView.Success(listOfAllStation)
                 else
-                    state.value =
+                    sAllStationDataResultFromDB.value =
                         ApiStateView.Error("All Stations data reading but data is empty..!")
             }
         }
