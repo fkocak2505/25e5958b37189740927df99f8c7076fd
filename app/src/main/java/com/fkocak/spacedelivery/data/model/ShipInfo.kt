@@ -14,7 +14,8 @@ data class ShipInfo(
     val shipname: String,
     val durability: Int,
     val speed: Int,
-    val capacity: Int
+    val capacity: Int,
+    val damageCapacity: Int
 ) {
     @PrimaryKey(autoGenerate = true)
     var shipInfoId: Int? = null

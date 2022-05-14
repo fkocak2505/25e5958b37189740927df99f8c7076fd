@@ -13,7 +13,7 @@ import com.fkocak.spacedelivery.data.model.ShipInfo
  */
 //==============================================================================================
 @TypeConverters(RoomsConvertor::class)
-@Database(entities = [Response4Stations::class, ShipInfo::class], version = 3, exportSchema = false)
+@Database(entities = [Response4Stations::class, ShipInfo::class], version = 4, exportSchema = false)
 abstract class SpaceDeliveryDatabase : RoomDatabase() {
 
     abstract fun getSpaceDeliveryDAO(): SpaceDeliveryDAO

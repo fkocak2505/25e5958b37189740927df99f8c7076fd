@@ -58,6 +58,7 @@ constructor(
         durability: Int,
         speed: Int,
         capacity: Int,
+        damageCapacity: Int,
         completion: suspend (ApiStateView) -> Unit
     ) {
         Timber.i("Working on ---> ${Thread.currentThread().name} & saved ships info..")
@@ -68,7 +69,8 @@ constructor(
                     shipname = shipName,
                     durability = durability,
                     speed = speed,
-                    capacity = capacity
+                    capacity = capacity,
+                    damageCapacity = damageCapacity
                 )
             )
         shipsInfoPrimaryKey?.let {

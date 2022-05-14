@@ -65,9 +65,10 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
         durability: Int,
         speed: Int,
         capacity: Int,
+        damageCapacity: Int
     ) {
         AppCoroutines.io {
-            spaceDeliveryRepositories.saveSpaceShipInfo(shipName, durability, speed, capacity) {
+            spaceDeliveryRepositories.saveSpaceShipInfo(shipName, durability, speed, capacity, damageCapacity) {
                 Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion shipsInfo..")
                 withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                     resultOfInsertShipsInfo.value = it

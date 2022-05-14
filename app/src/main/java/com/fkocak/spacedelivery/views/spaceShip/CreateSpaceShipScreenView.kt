@@ -194,6 +194,7 @@ private fun checkAllObligatoryField(
                 durability = sShipDurability,
                 speed = sShipSpeed,
                 capacity = sShipCapacity,
+                damageCapacity = DAMAGE_CAPACITY
             )
 
             onGoNextScreenView.invoke()
