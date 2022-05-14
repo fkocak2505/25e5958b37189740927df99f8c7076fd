@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_space_logo.xml" value="0.1435" />
+        <entry key="app/src/main/res/drawable/ic_station.xml" value="0.163" />
+        <entry key="app/src/main/res/drawable/ic_stations.xml" value="0.163" />
       </map>
     </option>
   </component>

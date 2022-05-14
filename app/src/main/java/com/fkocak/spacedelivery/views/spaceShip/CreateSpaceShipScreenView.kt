@@ -30,7 +30,9 @@ import com.fkocak.spacedelivery.utils.stateVals.*
 import com.fkocak.spacedelivery.vm.StationsVM
 
 @Composable
-fun CreateSpaceShipScreenView() {
+fun CreateSpaceShipScreenView(
+    onGoNextScreenView: () -> Unit
+) {
 
     val context = LocalContext.current
 
@@ -158,13 +160,21 @@ fun CreateSpaceShipScreenView() {
                     end.linkTo(parent.end, MARGIN_15)
                 }
         ) {
-            checkAllObligatoryField(stationsVM = stationsVM, context = context)
+            checkAllObligatoryField(
+                stationsVM = stationsVM,
+                context = context,
+                onGoNextScreenView = onGoNextScreenView
+            )
         }
 
     }
 }
 
-private fun checkAllObligatoryField(stationsVM: StationsVM, context: Context) {
+private fun checkAllObligatoryField(
+    stationsVM: StationsVM,
+    context: Context,
+    onGoNextScreenView: () -> Unit
+) {
     when {
         sShipName.isEmpty() -> Toast.makeText(
             context,
@@ -183,6 +193,8 @@ private fun checkAllObligatoryField(stationsVM: StationsVM, context: Context) {
                 speed = sShipSpeed,
                 capacity = sShipCapacity
             )
+
+            onGoNextScreenView.invoke()
         }
     }
 }
@@ -199,6 +211,7 @@ private fun prepareVMListener(stationsVM: StationsVM) {
                 "Uzay aracınızın bilgileri başarılı bir şekilde kaydedildi..",
                 Toast.LENGTH_SHORT
             ).show()
+
         }
         is ApiStateView.Error -> {
             val msg = ((stationsVM.resultOfInsertShipsInfo.value) as ApiStateView.Error).error
@@ -223,7 +236,7 @@ private fun prepareVMListener(stationsVM: StationsVM) {
             ).show()
         }
         is ApiStateView.Error -> {
-            val msg = ((stationsVM.resultOfInsertShipsInfo.value) as ApiStateView.Error).error
+            val msg = ((stationsVM.shipInfoState.value) as ApiStateView.Error).error
             Toast.makeText(
                 context,
                 msg,

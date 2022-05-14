@@ -1,5 +1,6 @@
 package com.fkocak
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,11 +17,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fkocak.spacedelivery.constant.ScreensNavigation.CREATE_SPACE_SHIP
+import com.fkocak.spacedelivery.constant.ScreensNavigation.NAVIGATION_VIEW_SCREEN
 import com.fkocak.spacedelivery.constant.ScreensNavigation.SPLASH
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.utils.ApiStateView
 import com.fkocak.spacedelivery.vm.StationsVM
 import com.fkocak.spacedelivery.ui.theme.Purple200
+import com.fkocak.spacedelivery.views.navigationScreen.NavigationScreenView
 import com.fkocak.spacedelivery.views.spaceShip.CreateSpaceShipScreenView
 import com.fkocak.spacedelivery.views.splash.SplashScreenView
 
@@ -52,8 +55,14 @@ fun NavigationController() {
 
         // Navigation to Create Space Ship Screen
         composable(CREATE_SPACE_SHIP.routes) {
-//                NavigationScreen()
-            CreateSpaceShipScreenView()
+            CreateSpaceShipScreenView {
+                navController.navigate(NAVIGATION_VIEW_SCREEN.routes)
+            }
+        }
+
+        // Navigation to NavigateScreenView
+        composable(NAVIGATION_VIEW_SCREEN.routes) {
+            NavigationScreenView()
         }
 
     }
