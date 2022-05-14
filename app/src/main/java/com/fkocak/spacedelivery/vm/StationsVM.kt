@@ -36,7 +36,7 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
     private suspend fun getAllStations() {
         spaceDeliveryRepositories.getAllStations { allStation, error ->
             Timber.i("Response -- $allStation")
-            withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()){
+            withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                 Timber.i("Working on ---> ${Thread.currentThread().name} & handle data and check for null..")
                 allStation?.let {
                     state.value = ApiStateView.Loading(boolean = false)
@@ -45,6 +45,18 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
                     state.value = ApiStateView.Error(error = error)
                 }
             }
+        }
+    }
+
+    //==============================================================================================
+    /**
+     * Save Space Ship Info.. (ShipName, Durability, Speed, Capacity)
+     */
+    //==============================================================================================
+    fun saveSpaceShipInfo(shipName: String, durability: Int, speed: Int, capacity: Int) {
+        spaceDeliveryRepositories.saveSpaceShipInfo(shipName, durability, speed, capacity) {
+            Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion shipsInfo..")
+            resultOfInsertShipsInfo.value = it
         }
     }
 }

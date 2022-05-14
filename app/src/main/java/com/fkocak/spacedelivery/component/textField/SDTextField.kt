@@ -12,10 +12,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.fkocak.spacedelivery.component.text.SDText
-import com.fkocak.spacedelivery.ui.theme.BACKGROUND_HALF_WHITE
-import com.fkocak.spacedelivery.ui.theme.TEXT_COLOR_GREY
-import com.fkocak.spacedelivery.ui.theme.TEXT_SIZE_16
-import com.fkocak.spacedelivery.ui.theme.TypeOfFont
+import com.fkocak.spacedelivery.ui.theme.*
 import com.fkocak.spacedelivery.utils.stateVals.sShipName
 
 @Composable
@@ -33,7 +30,7 @@ fun SDTextField(
         placeholder = {
             SDText(
                 text = "Uzay araç ismi yazınız",
-                style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_16, TextAlign.Start),
+                style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
                 maxLine = 1,
                 color = TEXT_COLOR_GREY,
                 modifier = Modifier
@@ -46,7 +43,7 @@ fun SDTextField(
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
         ),
-        textStyle = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_16, TextAlign.Start),
+        textStyle = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done,

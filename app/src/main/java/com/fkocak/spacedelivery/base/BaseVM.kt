@@ -13,6 +13,11 @@ abstract class BaseVM : ViewModel() {
      */
     val state: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
 
+    /**
+     *
+     */
+    val resultOfInsertShipsInfo: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
+
 
     /**
      * Job: Controlling for manuel coroutine dispatchers..

@@ -3,8 +3,10 @@ package com.fkocak.spacedelivery.data.repositories
 import com.fkocak.spacedelivery.base.BaseApiResponse
 import com.fkocak.spacedelivery.data.apiService.ApiService
 import com.fkocak.spacedelivery.data.model.Response4Stations
+import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.room.SpaceDeliveryDAO
 import com.fkocak.spacedelivery.utils.ApiState
+import com.fkocak.spacedelivery.utils.ApiStateView
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,6 +47,32 @@ constructor(
                 completion(null, error)
             }
 
+        }
+    }
+
+    //==============================================================================================
+    fun saveSpaceShipInfo(
+        shipName: String,
+        durability: Int,
+        speed: Int,
+        capacity: Int,
+        completion: (ApiStateView) -> Unit
+    ) {
+        Timber.i("Working on ---> ${Thread.currentThread().name} & saved ships info..")
+        val shipsInfoPrimaryKey =
+            spaceDeliveryDAO.insertShipsInfo(
+                ShipInfo(
+                    shipname = shipName,
+                    durability = durability,
+                    speed = speed,
+                    capacity = capacity
+                )
+            )
+        shipsInfoPrimaryKey?.let {
+            completion(ApiStateView.Success(true))
+        } ?: run {
+            Timber.i("Error when inserting shipsInfo")
+            completion(ApiStateView.Error("Error when inserting shipsInfo"))
         }
     }
 

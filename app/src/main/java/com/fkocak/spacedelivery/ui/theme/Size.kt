@@ -20,6 +20,7 @@ val TEXT_SIZE_26 = 26.sp
  */
 val MARGIN_10 = 10.dp
 val MARGIN_15 = 15.dp
+val MARGIN_20 = 20.dp
 val MARGIN_56 = 56.dp
 
 /**

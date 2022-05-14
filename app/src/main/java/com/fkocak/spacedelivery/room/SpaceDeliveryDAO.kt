@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.fkocak.spacedelivery.data.model.Response4Stations
+import com.fkocak.spacedelivery.data.model.ShipInfo
 
 //==================================================================================================
 /**
@@ -17,10 +18,17 @@ interface SpaceDeliveryDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllStation(response4Stations: MutableList<Response4Stations>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertShipsInfo(shipsInfo: ShipInfo): Long?
+
     @Query("DELETE FROM stations")
     suspend fun deleteAllStation()
 
     @Query("SELECT * FROM stations")
-    fun getAllStation():  MutableList<Response4Stations>?
+    fun getAllStation(): MutableList<Response4Stations>?
+
+    @Query("SELECT * FROM ship_info")
+    fun getShipInfo(): ShipInfo
+
 
 }
