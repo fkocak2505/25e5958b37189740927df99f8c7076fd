@@ -3,6 +3,7 @@ package com.fkocak.spacedelivery.base
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.utils.ApiStateView
 import kotlinx.coroutines.Job
 
@@ -14,9 +15,15 @@ abstract class BaseVM : ViewModel() {
     val state: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
 
     /**
-     *
+     * Using State for handle shipsData is inserted successfully
      */
-    val resultOfInsertShipsInfo: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
+    val resultOfInsertShipsInfo: MutableState<ApiStateView> =
+        mutableStateOf(ApiStateView.Loading(false))
+
+    /**
+     * Using State for handle shipsData from read roomDB
+     */
+    val shipInfoState: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
 
 
     /**

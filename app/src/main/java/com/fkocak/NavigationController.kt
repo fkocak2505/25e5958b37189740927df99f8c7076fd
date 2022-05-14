@@ -37,6 +37,8 @@ fun NavigationController() {
         startDestination = SPLASH.routes
     ) {
 
+        stationsVM.getAllStationsFromApi()
+
         // Splash Compose
         composable(SPLASH.routes) {
             SplashScreenView {
@@ -69,6 +71,7 @@ private fun prepareVMListener(stationsVM: StationsVM) {
         is ApiStateView.Success -> {
             val response =
                 ((stationsVM.state.value) as ApiStateView.Success).any as MutableList<Response4Stations>
+
         }
         is ApiStateView.Error -> {
             val msg = ((stationsVM.state.value) as ApiStateView.Error).error

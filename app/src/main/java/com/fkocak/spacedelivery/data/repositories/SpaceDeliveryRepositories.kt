@@ -29,10 +29,10 @@ constructor(
     //==============================================================================================
     suspend fun getAllStations(completion: suspend (MutableList<Response4Stations>?, String?) -> Unit) {
         Timber.i("Working on ---> ${Thread.currentThread().name} & triggered getAllStations Repositories..")
-        if (fetchStationsFromCached().isNotEmpty()) {
-            Timber.i("Working on ---> ${Thread.currentThread().name} & handle data from room cached..")
-            completion(fetchStationsFromCached(), null)
-        }
+//        if (fetchStationsFromCached().isNotEmpty()) {
+//            Timber.i("Working on ---> ${Thread.currentThread().name} & handle data from room cached..")
+//            completion(fetchStationsFromCached(), null)
+//        }
 
         val listOfAllStation = apiCall { apiService.getStations() }
 
@@ -51,12 +51,12 @@ constructor(
     }
 
     //==============================================================================================
-    fun saveSpaceShipInfo(
+    suspend fun saveSpaceShipInfo(
         shipName: String,
         durability: Int,
         speed: Int,
         capacity: Int,
-        completion: (ApiStateView) -> Unit
+        completion: suspend (ApiStateView) -> Unit
     ) {
         Timber.i("Working on ---> ${Thread.currentThread().name} & saved ships info..")
         val shipsInfoPrimaryKey =
@@ -81,11 +81,24 @@ constructor(
      * Fetch data from roomDB. If there is no data return emptyMutableList data..
      */
     //==============================================================================================
-    private fun fetchStationsFromCached(): MutableList<Response4Stations> {
+    fun fetchStationsFromCached(): MutableList<Response4Stations> {
         return spaceDeliveryDAO.getAllStation()?.let {
             it.ifEmpty { mutableListOf() }
         } ?: run {
             mutableListOf()
+        }
+    }
+
+    //==============================================================================================
+    /**
+     * Fetch shipInfo data from roomDB. If there is no data return null
+     */
+    //==============================================================================================
+    fun fetchShipInfo(): ShipInfo? {
+        return spaceDeliveryDAO.getShipInfo()?.let {
+            it
+        } ?: run {
+            null
         }
     }
 

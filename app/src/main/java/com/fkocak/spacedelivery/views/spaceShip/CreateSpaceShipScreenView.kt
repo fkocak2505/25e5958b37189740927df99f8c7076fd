@@ -23,6 +23,7 @@ import com.fkocak.spacedelivery.component.textField.SDTextField
 import com.fkocak.spacedelivery.component.toolbar.SDToolbar
 import com.fkocak.spacedelivery.constant.*
 import com.fkocak.spacedelivery.data.model.Response4Stations
+import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.ui.theme.*
 import com.fkocak.spacedelivery.utils.ApiStateView
 import com.fkocak.spacedelivery.utils.stateVals.*
@@ -204,6 +205,28 @@ private fun prepareVMListener(stationsVM: StationsVM) {
             Toast.makeText(
                 context,
                 "Uzay aracınızın bilgileri kaydedilirken bir hata oluştu..!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else -> {}
+    }
+
+    when (stationsVM.shipInfoState.value) {
+        is ApiStateView.Success -> {
+            val response =
+                ((stationsVM.shipInfoState.value) as ApiStateView.Success).any as ShipInfo
+
+            Toast.makeText(
+                context,
+                response.shipname,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        is ApiStateView.Error -> {
+            val msg = ((stationsVM.resultOfInsertShipsInfo.value) as ApiStateView.Error).error
+            Toast.makeText(
+                context,
+                msg,
                 Toast.LENGTH_SHORT
             ).show()
         }

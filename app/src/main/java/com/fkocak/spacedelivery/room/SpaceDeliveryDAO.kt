@@ -19,7 +19,7 @@ interface SpaceDeliveryDAO {
     suspend fun insertAllStation(response4Stations: MutableList<Response4Stations>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertShipsInfo(shipsInfo: ShipInfo): Long?
+    suspend fun insertShipsInfo(shipsInfo: ShipInfo): Long?
 
     @Query("DELETE FROM stations")
     suspend fun deleteAllStation()
@@ -28,7 +28,7 @@ interface SpaceDeliveryDAO {
     fun getAllStation(): MutableList<Response4Stations>?
 
     @Query("SELECT * FROM ship_info")
-    fun getShipInfo(): ShipInfo
+    fun getShipInfo(): ShipInfo?
 
 
 }
