@@ -60,7 +60,12 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
      * Save Space Ship Info.. (ShipName, Durability, Speed, Capacity)
      */
     //==============================================================================================
-    fun saveSpaceShipInfo(shipName: String, durability: Int, speed: Int, capacity: Int) {
+    fun saveSpaceShipInfo(
+        shipName: String,
+        durability: Int,
+        speed: Int,
+        capacity: Int,
+    ) {
         AppCoroutines.io {
             spaceDeliveryRepositories.saveSpaceShipInfo(shipName, durability, speed, capacity) {
                 Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion shipsInfo..")
@@ -76,7 +81,7 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
      * Get Space Ship Info.. (ShipName, Durability, Speed, Capacity)
      */
     //==============================================================================================
-    fun getSpaceShipInfo() {
+    fun getSpaceShipInfoFromRoomDB() {
         AppCoroutines.io {
             val shipsInfo = spaceDeliveryRepositories.fetchShipInfo()
             withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {

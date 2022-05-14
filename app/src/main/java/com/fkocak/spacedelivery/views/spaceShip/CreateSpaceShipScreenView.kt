@@ -40,6 +40,8 @@ fun CreateSpaceShipScreenView(
 
     prepareVMListener(stationsVM)
 
+    checkIfSavedShipInfoSavedBefore()
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -191,7 +193,7 @@ private fun checkAllObligatoryField(
                 shipName = sShipName,
                 durability = sShipDurability,
                 speed = sShipSpeed,
-                capacity = sShipCapacity
+                capacity = sShipCapacity,
             )
 
             onGoNextScreenView.invoke()
@@ -290,5 +292,20 @@ private fun calculateSlidersRangeValue(type: Int, remainingScore: Int) {
 
             sShipCapacityValueRange = 0f..capacityRangeValsByFloat
         }
+    }
+}
+
+private fun checkIfSavedShipInfoSavedBefore() {
+    sShipInfoData?.let {
+        sDurabilityIsEnabled = true
+        sSpeedIsEnabled = true
+        sCapacityIsEnabled = true
+
+        sShipName = it.shipname
+        sShipDurability = it.durability
+        sShipSpeed = it.speed
+        sShipCapacity = it.capacity
+
+        sButonText = "Güncelle"
     }
 }

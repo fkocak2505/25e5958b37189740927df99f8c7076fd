@@ -3,6 +3,7 @@ package com.fkocak.spacedelivery.utils.stateVals
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.fkocak.spacedelivery.data.model.ShipInfo
 
 /**
  * Total Score
@@ -34,3 +35,14 @@ var sSpeedIsEnabled: Boolean by mutableStateOf(false)
 var sShipCapacity: Int by mutableStateOf(0)
 var sShipCapacityValueRange: ClosedFloatingPointRange<Float> by mutableStateOf(1f..13f)
 var sCapacityIsEnabled: Boolean by mutableStateOf(false)
+
+/**
+ * ShipInfoData
+ */
+var sShipInfoData: ShipInfo? by mutableStateOf(null)
+
+/**
+ * Button Text..
+ */
+var sButonText: String by mutableStateOf("Devam Et")
+

@@ -13,6 +13,7 @@ import com.fkocak.spacedelivery.ui.theme.LOGO_DARK_BLUE
 import com.fkocak.spacedelivery.ui.theme.MARGIN_15
 import com.fkocak.spacedelivery.ui.theme.TEXT_SIZE_14
 import com.fkocak.spacedelivery.ui.theme.TypeOfFont
+import com.fkocak.spacedelivery.utils.stateVals.sButonText
 
 @Composable
 fun SDButton(
@@ -26,7 +27,7 @@ fun SDButton(
         colors = ButtonDefaults.buttonColors(backgroundColor = LOGO_DARK_BLUE)
     ) {
         SDText(
-            text = "Devam Et",
+            text = sButonText,
             style = TypeOfFont.poppinsMediumStyle(TEXT_SIZE_14, TextAlign.Center),
             maxLine = 1,
             color = Color.White,

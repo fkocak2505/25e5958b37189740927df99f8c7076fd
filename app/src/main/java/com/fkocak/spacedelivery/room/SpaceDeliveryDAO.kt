@@ -24,6 +24,9 @@ interface SpaceDeliveryDAO {
     @Query("DELETE FROM stations")
     suspend fun deleteAllStation()
 
+    @Query("DELETE FROM ship_info")
+    suspend fun deleteShipInfo()
+
     @Query("SELECT * FROM stations")
     fun getAllStation(): MutableList<Response4Stations>?
 

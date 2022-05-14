@@ -32,16 +32,12 @@ fun SDSlider(
         Slider(
             value = value.toFloat(),
             onValueChange = {
-//                sliderPosition = it
-//                onValueChanged.invoke(sliderPosition.roundToInt())
                 onValueChange.invoke(it.roundToInt())
             },
             enabled = enabled,
             valueRange = valueRange,
             onValueChangeFinished = {
                 onValueChanged.invoke()
-                // launch some business logic update with the state you hold
-                // viewModel.updateSelectedSliderValue(sliderPosition)
             },
             steps = if (valueRange.endInclusive.toInt() == 0) 0 else valueRange.endInclusive.toInt() - 1,
             colors = SliderDefaults.colors(
@@ -56,13 +52,6 @@ fun SDSlider(
 
             SDText(
                 text = "$text: $value",
-                style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
-                maxLine = 1,
-                color = TEXT_COLOR_BLACK,
-                modifier = Modifier)
-
-            SDText(
-                text = "Aralık: ${valueRange.start.toInt()} - ${valueRange.endInclusive.toInt()}",
                 style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
                 maxLine = 1,
                 color = TEXT_COLOR_BLACK,
