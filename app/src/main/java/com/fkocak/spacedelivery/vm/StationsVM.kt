@@ -68,7 +68,13 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
         damageCapacity: Int
     ) {
         AppCoroutines.io {
-            spaceDeliveryRepositories.saveSpaceShipInfo(shipName, durability, speed, capacity, damageCapacity) {
+            spaceDeliveryRepositories.saveSpaceShipInfo(
+                shipName,
+                durability,
+                speed,
+                capacity,
+                damageCapacity
+            ) {
                 Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion shipsInfo..")
                 withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                     resultOfInsertShipsInfo.value = it
@@ -92,6 +98,36 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
                     shipInfoState.value =
                         ApiStateView.Error("Ship Info reading but data is null..!")
                 }
+            }
+        }
+    }
+
+    //==============================================================================================
+    /**
+     * Save Favorite Station..
+     */
+    //==============================================================================================
+    fun saveFavoriteStation() {
+        AppCoroutines.io {
+            spaceDeliveryRepositories.saveFavoriteStation {
+                Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion shipsInfo..")
+                withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
+                    resultOfInsertFavoriteList.value = it
+                }
+            }
+        }
+    }
+
+    //==============================================================================================
+    /**
+     * Get Favorite Station List.. (ShipName, Durability, Speed, Capacity)
+     */
+    //==============================================================================================
+    fun getFavoriteStationListFromRoomDB() {
+        AppCoroutines.io {
+            val listOfFavoriteStation = spaceDeliveryRepositories.fetchFavoriteStationsFromCached()
+            withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
+                sFavoriteStationDataResultFromDB.value = ApiStateView.Success(listOfFavoriteStation)
             }
         }
     }

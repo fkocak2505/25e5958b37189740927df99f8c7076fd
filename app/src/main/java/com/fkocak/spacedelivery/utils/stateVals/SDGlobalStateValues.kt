@@ -8,6 +8,7 @@ import com.fkocak.spacedelivery.constant.DAMAGE_CAPACITY
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 
 /**
  * Total Score
@@ -94,5 +95,10 @@ var sCurrentStationInfo: Stations? by mutableStateOf(null)
  * Travellable Stations List..
  */
 var sTravellableStationList = mutableStateListOf<Stations>()
+
+/**
+ * Favorites Stations List..
+ */
+var sFavoriteStationList = mutableStateListOf<Stations4RoomDB>().toMutableList()
 
 

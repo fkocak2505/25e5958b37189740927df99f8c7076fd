@@ -20,9 +20,20 @@ abstract class BaseVM : ViewModel() {
     val sAllStationDataResultFromDB: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
 
     /**
+     * Using State for handle data from station RoomDB
+     */
+    val sFavoriteStationDataResultFromDB: MutableState<ApiStateView> = mutableStateOf(ApiStateView.Loading(false))
+
+    /**
      * Using State for handle shipsData is inserted successfully
      */
     val resultOfInsertShipsInfo: MutableState<ApiStateView> =
+        mutableStateOf(ApiStateView.Loading(false))
+
+    /**
+     * Using State for handle shipsData is inserted successfully
+     */
+    val resultOfInsertFavoriteList: MutableState<ApiStateView> =
         mutableStateOf(ApiStateView.Loading(false))
 
     /**

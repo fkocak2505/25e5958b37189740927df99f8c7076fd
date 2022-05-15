@@ -5,9 +5,12 @@ import com.fkocak.spacedelivery.coroutines.SpaceDeliveryCoroutineDispatcherProvi
 import com.fkocak.spacedelivery.data.apiService.ApiService
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
+import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 import com.fkocak.spacedelivery.room.SpaceDeliveryDAO
 import com.fkocak.spacedelivery.utils.ApiState
 import com.fkocak.spacedelivery.utils.ApiStateView
+import com.fkocak.spacedelivery.utils.stateVals.sFavoriteStationList
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -82,12 +85,41 @@ constructor(
     }
 
     //==============================================================================================
+    suspend fun saveFavoriteStation(
+        completion: suspend (ApiStateView) -> Unit
+    ) {
+        Timber.i("Working on ---> ${Thread.currentThread().name} & saved favorite stations..")
+        spaceDeliveryDAO.deleteFavoriteStation()
+        val favoriteStationListPrimaryKey =
+            spaceDeliveryDAO.insertFavoriteStation(sFavoriteStationList)
+        favoriteStationListPrimaryKey?.let {
+            completion(ApiStateView.Success(true))
+        } ?: run {
+            Timber.i("Error when inserting favorite station list")
+            completion(ApiStateView.Error("Error when inserting favorite station"))
+        }
+    }
+
+    //==============================================================================================
     /**
      * Fetch data from roomDB. If there is no data return emptyMutableList data..
      */
     //==============================================================================================
     fun fetchStationsFromCached(): MutableList<Response4Stations> {
         return spaceDeliveryDAO.getAllStation()?.let {
+            it.ifEmpty { mutableListOf() }
+        } ?: run {
+            mutableListOf()
+        }
+    }
+
+    //==============================================================================================
+    /**
+     * Fetch Favorite Station data from roomDB. If there is no data return emptyMutableList data..
+     */
+    //==============================================================================================
+    fun fetchFavoriteStationsFromCached(): MutableList<Stations4RoomDB> {
+        return spaceDeliveryDAO.getFavoriteStationList()?.let {
             it.ifEmpty { mutableListOf() }
         } ?: run {
             mutableListOf()

@@ -19,7 +19,8 @@ import com.fkocak.spacedelivery.ui.theme.LOGO_LIGHT_BLUE
 @Composable
 fun SDFavoriteButton(
     modifier: Modifier,
-    color: Color = LOGO_LIGHT_BLUE
+    color: Color = LOGO_LIGHT_BLUE,
+    onAddedFavorite: (Boolean) -> Unit
 ) {
 
     var isFavorite by remember { mutableStateOf(false) }
@@ -35,6 +36,7 @@ fun SDFavoriteButton(
             checked = isFavorite,
             onCheckedChange = {
                 isFavorite = !isFavorite
+                onAddedFavorite.invoke(isFavorite)
             }
         ) {
             Icon(

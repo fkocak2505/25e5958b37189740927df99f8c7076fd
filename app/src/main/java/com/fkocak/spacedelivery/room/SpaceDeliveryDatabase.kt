@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
+import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 
 //==================================================================================================
 /**
@@ -13,7 +15,11 @@ import com.fkocak.spacedelivery.data.model.ShipInfo
  */
 //==============================================================================================
 @TypeConverters(RoomsConvertor::class)
-@Database(entities = [Response4Stations::class, ShipInfo::class], version = 13, exportSchema = false)
+@Database(
+    entities = [Response4Stations::class, ShipInfo::class, Stations4RoomDB::class],
+    version = 16,
+    exportSchema = false
+)
 abstract class SpaceDeliveryDatabase : RoomDatabase() {
 
     abstract fun getSpaceDeliveryDAO(): SpaceDeliveryDAO

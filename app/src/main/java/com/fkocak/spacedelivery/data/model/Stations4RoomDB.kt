@@ -1,35 +1,26 @@
 package com.fkocak.spacedelivery.data.model
 
+import androidx.compose.runtime.MutableState
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
 //==================================================================================================
 /**
  * Entity for roomDB table.. And model class..
  */
 //==================================================================================================
-@Entity(tableName = "all_stations")
-data class Response4Stations(
-
-    @field:SerializedName("coordinateY")
+@Entity(tableName = "station")
+data class Stations4RoomDB(
     val coordinateY: Double? = null,
-
-    @field:SerializedName("coordinateX")
     val coordinateX: Double? = null,
-
-    @field:SerializedName("need")
-    val need: Int? = null,
-
-    @field:SerializedName("name")
+    var need: Int? = null,
     val name: String? = null,
-
-    @field:SerializedName("stock")
     val stock: Int? = null,
-
-    @field:SerializedName("capacity")
-    val capacity: Int? = null
+    val capacity: Int? = null,
+    var isHasCapacity: Boolean? = null,
+    var isAddedFavorite: Boolean? = null,
+    var distance: Int? = null
 ) {
     @PrimaryKey(autoGenerate = true)
-    var stationId: Int? = null
+    var favoriteStationId: Int? = null
 }

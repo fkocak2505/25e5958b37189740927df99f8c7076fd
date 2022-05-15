@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.SDButton
 import com.fkocak.spacedelivery.component.favoriteButton.SDFavoriteButton
@@ -24,9 +25,13 @@ import com.fkocak.spacedelivery.constant.calculateDistanceBetweenEachOther
 import com.fkocak.spacedelivery.constant.calculateRemainingDurabilitySecond
 import com.fkocak.spacedelivery.constant.returnWorld
 import com.fkocak.spacedelivery.data.model.Response4Stations
+import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 import com.fkocak.spacedelivery.ui.theme.*
+import com.fkocak.spacedelivery.utils.ApiStateView
 import com.fkocak.spacedelivery.utils.stateVals.*
+import com.fkocak.spacedelivery.vm.StationsVM
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 
@@ -38,6 +43,12 @@ fun SDHorizontalStationListItem(
 ) {
 
     val context = LocalContext.current
+
+    val stationsVM: StationsVM = hiltViewModel()
+
+    stationsVM.getFavoriteStationListFromRoomDB()
+
+    prepareVMListener(context = context, stationsVM = stationsVM)
 
     Card(
         modifier = modifier,
@@ -151,12 +162,58 @@ fun SDHorizontalStationListItem(
                 .constrainAs(bFavorite) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
-                })
+                }) {
+                if (it) {
+                    items.isAddedFavorite?.value = true
+                    addFavoriteItem2List(items)
+                } else {
+                    if (sFavoriteStationList.isNotEmpty()) {
+                        items.isAddedFavorite?.value = false
+                        removeFavoriteItem2List(items)
+                    } else
+                        Toast.makeText(context, "Favori Listen zaten boş..", Toast.LENGTH_SHORT)
+                            .show()
+                }
+
+                stationsVM.saveFavoriteStation()
+
+            }
         }
     }
 }
 
-private fun goTravellingOtherStation(context: Context, navController: NavHostController, items: Stations) {
+private fun addFavoriteItem2List(items: Stations) {
+    val findingStation = sFavoriteStationList.find { it.name == items.name }
+    findingStation?.let {
+
+    } ?: run {
+        sFavoriteStationList.add(
+            Stations4RoomDB(
+                items.coordinateY,
+                items.coordinateX,
+                items.need?.value,
+                items.name,
+                items.stock?.value,
+                items.capacity,
+                items.isHasCapacity?.value,
+                items.isAddedFavorite?.value,
+                items.distance?.value
+            )
+        )
+    }
+}
+
+private fun removeFavoriteItem2List(items: Stations) {
+    val findItems = sFavoriteStationList.find { it.name == items.name }
+    sFavoriteStationList.remove(findItems)
+}
+
+
+private fun goTravellingOtherStation(
+    context: Context,
+    navController: NavHostController,
+    items: Stations
+) {
 
     if (sUGS < items.need?.value!!)
         Toast.makeText(
@@ -224,7 +281,7 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
 
             } else {
 
-                if(sShipDamageCapacity == 0){
+                if (sShipDamageCapacity == 0) {
                     Toast.makeText(
                         context,
                         "Uzay aracın hasar kapasitesi doldu. Dünyaya dönülüyor",
@@ -233,8 +290,7 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
 
                     returnWorld()
                     navController.popBackStack()
-                }else {
-
+                } else {
                 }
             }
         }
@@ -251,5 +307,31 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
         navController.popBackStack()
 
     }
+}
 
+@Composable
+private fun prepareVMListener(context: Context, stationsVM: StationsVM) {
+    when (stationsVM.resultOfInsertFavoriteList.value) {
+        is ApiStateView.Success -> {
+            Toast.makeText(
+                context,
+                "Favoriye Eklendi",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }
+        is ApiStateView.Error -> {}
+        else -> {}
+    }
+
+    when (stationsVM.sFavoriteStationDataResultFromDB.value) {
+        is ApiStateView.Success -> {
+            val response =
+                ((stationsVM.sFavoriteStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Stations4RoomDB>
+
+            sFavoriteStationList = response
+        }
+        is ApiStateView.Error -> {}
+        else -> {}
+    }
 }

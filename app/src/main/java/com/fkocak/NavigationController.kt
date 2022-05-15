@@ -132,6 +132,7 @@ private fun setCurrentStation() {
                     mutableStateOf(response4Stations.stock!!),
                     response4Stations.capacity,
                     mutableStateOf(response4Stations.need != 0),
+                    mutableStateOf(false),
                     mutableStateOf(abs(response4Stations.coordinateX?.toInt()!!) + abs(response4Stations.coordinateY?.toInt()!!))
                 )
             )

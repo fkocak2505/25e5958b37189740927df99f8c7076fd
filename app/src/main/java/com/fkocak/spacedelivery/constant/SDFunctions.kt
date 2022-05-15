@@ -48,6 +48,7 @@ fun returnWorld(){
         mutableStateOf(currentStationObj.stock!!),
         currentStationObj.capacity,
         mutableStateOf(currentStationObj.need != 0),
+        mutableStateOf(false),
         mutableStateOf(abs(currentStationObj.coordinateX?.toInt()!!) + abs(currentStationObj.coordinateY?.toInt()!!))
     )
 }
