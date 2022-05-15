@@ -1,6 +1,7 @@
 package com.fkocak.spacedelivery.views.navigationScreen.station
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -25,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.horizontalStationList.SDHorizontalStationList
 import com.fkocak.spacedelivery.component.text.SDText
+import com.fkocak.spacedelivery.component.textField.SDTextField
 import com.fkocak.spacedelivery.component.toolbar.SDToolbar
 import com.fkocak.spacedelivery.constant.calculateTotalScore
 import com.fkocak.spacedelivery.ui.theme.*
@@ -44,6 +47,7 @@ fun StationScreenView(navController: NavHostController) {
         val (tUGS, tEUS, tDS, tShipName, tDamageCapacity, tEUSInfo, tCurrentStationName) = createRefs()
         val (divider) = createRefs()
         val (lrAllStation) = createRefs()
+        val (tfSearchStations) = createRefs()
 
         SDToolbar(
             text = "İstasyonlar",
@@ -149,13 +153,25 @@ fun StationScreenView(navController: NavHostController) {
                 }
         )
 
+        SDTextField(
+            isSearch = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = MARGIN_15, end = MARGIN_15)
+                .border(BORDER_1, Color.LightGray, CircleShape)
+                .constrainAs(tfSearchStations) {
+                    top.linkTo(tEUSInfo.bottom, margin = MARGIN_15)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                })
+
         SDHorizontalStationList(
             navController = navController,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .constrainAs(lrAllStation) {
-                    top.linkTo(tEUSInfo.bottom, MARGIN_15)
+                    top.linkTo(tfSearchStations.bottom, MARGIN_15)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }

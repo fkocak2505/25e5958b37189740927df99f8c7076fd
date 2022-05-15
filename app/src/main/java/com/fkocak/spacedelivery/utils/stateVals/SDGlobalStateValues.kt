@@ -20,6 +20,11 @@ var sTotalScore: Int by mutableStateOf(15)
 var sShipName: String by mutableStateOf("")
 
 /**
+ * Searched Text
+ */
+var sSearchedText: String by mutableStateOf("")
+
+/**
  * Ship Durability states..
  */
 var sShipDurability: Int by mutableStateOf(0)

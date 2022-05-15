@@ -13,23 +13,28 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import com.fkocak.spacedelivery.component.text.SDText
 import com.fkocak.spacedelivery.ui.theme.*
+import com.fkocak.spacedelivery.utils.stateVals.sSearchedText
 import com.fkocak.spacedelivery.utils.stateVals.sShipName
 
 @Composable
 fun SDTextField(
+    isSearch: Boolean,
     modifier: Modifier
 ) {
 
     val focusManager = LocalFocusManager.current
 
     TextField(
-        value = sShipName,
+        value = if (isSearch) sSearchedText else sShipName,
         onValueChange = {
-            sShipName = it
+            if (isSearch)
+                sSearchedText = it
+            else
+                sShipName = it
         },
         placeholder = {
             SDText(
-                text = "Uzay araç ismi yazınız",
+                text = if (isSearch) "İstasyon arayın" else "Uzay araç ismi yazınız",
                 style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
                 maxLine = 1,
                 color = TEXT_COLOR_GREY,
@@ -44,9 +49,9 @@ fun SDTextField(
             disabledIndicatorColor = Color.Transparent
         ),
         textStyle = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
-        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+        keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }, onSearch = { focusManager.clearFocus() }),
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done,
+            imeAction = if (isSearch) ImeAction.Search else ImeAction.Done,
             keyboardType = KeyboardType.Text
         ),
         modifier = modifier

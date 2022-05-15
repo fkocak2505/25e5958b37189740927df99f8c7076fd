@@ -83,6 +83,7 @@ fun CreateSpaceShipScreenView(
         )
 
         SDTextField(
+            isSearch = false,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = MARGIN_15, end = MARGIN_15)

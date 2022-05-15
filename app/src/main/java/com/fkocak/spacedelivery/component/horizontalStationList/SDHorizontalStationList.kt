@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.horizontalStationListItem.SDHorizontalStationListItem
 import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.utils.stateVals.sSearchedText
 import com.fkocak.spacedelivery.utils.stateVals.sTravellableStationList
 
 @Composable
@@ -22,10 +23,13 @@ fun SDHorizontalStationList(
     modifier: Modifier
 ) {
 
+
     LazyRow(
         modifier = modifier
     ) {
-        itemsIndexed(items = sTravellableStationList,
+        itemsIndexed(items = sTravellableStationList.filter {
+            it.name?.contains(sSearchedText, ignoreCase = true)!!
+        },
             key = { index, item ->
                 item.name!!
             }
