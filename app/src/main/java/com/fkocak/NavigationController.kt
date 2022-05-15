@@ -1,11 +1,13 @@
 package com.fkocak
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,17 +18,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fkocak.spacedelivery.constant.ScreensNavigation.*
+import com.fkocak.spacedelivery.constant.returnWorld
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
+import com.fkocak.spacedelivery.data.model.Stations
 import com.fkocak.spacedelivery.ui.theme.Purple200
 import com.fkocak.spacedelivery.utils.ApiStateView
-import com.fkocak.spacedelivery.utils.stateVals.sAllStationData
-import com.fkocak.spacedelivery.utils.stateVals.sShipInfoData
+import com.fkocak.spacedelivery.utils.stateVals.*
 import com.fkocak.spacedelivery.views.navigationScreen.NavigationScreenView
 import com.fkocak.spacedelivery.views.spaceShip.CreateSpaceShipScreenView
 import com.fkocak.spacedelivery.views.splash.SplashScreenView
 import com.fkocak.spacedelivery.vm.StationsVM
 import timber.log.Timber
+import kotlin.math.abs
 
 @Composable
 fun NavigationController() {
@@ -64,7 +68,7 @@ fun NavigationController() {
 
         // Navigation to NavigateScreenView
         composable(NAVIGATION_VIEW_SCREEN.routes) {
-            NavigationScreenView()
+            NavigationScreenView(navController)
         }
 
     }
@@ -73,7 +77,7 @@ fun NavigationController() {
 @Composable
 private fun prepareVMListener(stationsVM: StationsVM) {
 
-    var context = LocalContext.current
+    val context = LocalContext.current
 
     when (stationsVM.sAllStationDataResult.value) {
         is ApiStateView.Loading -> {
@@ -85,9 +89,17 @@ private fun prepareVMListener(stationsVM: StationsVM) {
 
             sAllStationData = allStationData
 
+            setCurrentStation()
+
+
         }
         is ApiStateView.Error -> {
             val msg = ((stationsVM.sAllStationDataResult.value) as ApiStateView.Error).error
+            Toast.makeText(
+                context,
+                msg,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -101,6 +113,29 @@ private fun prepareVMListener(stationsVM: StationsVM) {
             sShipInfoData = null
         }
         else -> {}
+    }
+}
+
+private fun setCurrentStation() {
+    returnWorld()
+
+//    sAllStationData.removeAt(0)
+
+    sAllStationData.forEachIndexed { index, response4Stations ->
+        if(index != 0){
+            sTravellableStationList.add(
+                Stations(
+                    response4Stations.coordinateY,
+                    response4Stations.coordinateX,
+                    mutableStateOf(response4Stations.need!!),
+                    response4Stations.name,
+                    mutableStateOf(response4Stations.stock!!),
+                    response4Stations.capacity,
+                    mutableStateOf(response4Stations.need != 0),
+                    mutableStateOf(abs(response4Stations.coordinateX?.toInt()!!) + abs(response4Stations.coordinateY?.toInt()!!))
+                )
+            )
+        }
     }
 }
 

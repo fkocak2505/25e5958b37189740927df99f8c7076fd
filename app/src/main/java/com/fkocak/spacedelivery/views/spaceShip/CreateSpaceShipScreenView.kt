@@ -203,6 +203,8 @@ private fun checkAllObligatoryField(
 
             calculateFormul()
 
+            calculateRemainingDurabilitySecond()
+
             onGoNextScreenView.invoke()
         }
     }
@@ -226,7 +228,7 @@ private fun prepareVMListener(stationsVM: StationsVM) {
             val msg = ((stationsVM.resultOfInsertShipsInfo.value) as ApiStateView.Error).error
             Toast.makeText(
                 context,
-                "Uzay aracınızın bilgileri kaydedilirken bir hata oluştu..!",
+                msg,
                 Toast.LENGTH_SHORT
             ).show()
         }

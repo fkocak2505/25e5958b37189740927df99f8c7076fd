@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.horizontalStationList.SDHorizontalStationList
 import com.fkocak.spacedelivery.component.text.SDText
 import com.fkocak.spacedelivery.component.toolbar.SDToolbar
@@ -31,7 +32,7 @@ import com.fkocak.spacedelivery.utils.stateVals.*
 import com.fkocak.spacedelivery.views.navigationScreen.favorite.drawElement
 
 @Composable
-fun StationScreenView() {
+fun StationScreenView(navController: NavHostController) {
 
     ConstraintLayout(
         modifier = Modifier
@@ -40,7 +41,7 @@ fun StationScreenView() {
     ) {
 
         val (toolbar) = createRefs()
-        val (tUGS, tEUS, tDS, tShipName, tDamageCapacity, tEUSInfo) = createRefs()
+        val (tUGS, tEUS, tDS, tShipName, tDamageCapacity, tEUSInfo, tCurrentStationName) = createRefs()
         val (divider) = createRefs()
         val (lrAllStation) = createRefs()
 
@@ -136,7 +137,7 @@ fun StationScreenView() {
         )
 
         SDText(
-            text = "Kalan Süre: ${sEUS}sn",
+            text = "Kalan Süre: ${sRemaningDurabilitySeconds}sn",
             style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
             maxLine = 1,
             color = TEXT_COLOR_BLACK,
@@ -149,6 +150,7 @@ fun StationScreenView() {
         )
 
         SDHorizontalStationList(
+            navController = navController,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
@@ -156,6 +158,19 @@ fun StationScreenView() {
                     top.linkTo(tEUSInfo.bottom, MARGIN_15)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
+                }
+        )
+
+        SDText(
+            text = "İstasyon: ${sCurrentStationInfo?.name}",
+            style = TypeOfFont.poppinsSemiBoldStyle(TEXT_SIZE_20, TextAlign.Center),
+            maxLine = 1,
+            color = TEXT_COLOR_BLACK,
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(tCurrentStationName) {
+                    top.linkTo(lrAllStation.bottom, MARGIN_20)
+                    start.linkTo(parent.start, MARGIN_10)
                 }
         )
     }

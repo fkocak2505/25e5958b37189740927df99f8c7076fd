@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import com.fkocak.spacedelivery.constant.DAMAGE_CAPACITY
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
+import com.fkocak.spacedelivery.data.model.Stations
 
 /**
  * Total Score
@@ -73,4 +74,20 @@ var sEUS: Int by mutableStateOf(0)
  * DS Value
  */
 var sDS: Int by mutableStateOf(0)
+
+/**
+ * Remaining Durability Seconds
+ */
+var sRemaningDurabilitySeconds: Int by mutableStateOf(0)
+
+/**
+ * Current Station Info
+ */
+var sCurrentStationInfo: Stations? by mutableStateOf(null)
+
+/**
+ * Travellable Stations List..
+ */
+var sTravellableStationList = mutableStateListOf<Stations>()
+
 

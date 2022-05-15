@@ -62,6 +62,7 @@ constructor(
         completion: suspend (ApiStateView) -> Unit
     ) {
         Timber.i("Working on ---> ${Thread.currentThread().name} & saved ships info..")
+        spaceDeliveryDAO.deleteShipInfo()
         val shipsInfoPrimaryKey =
             spaceDeliveryDAO.insertShipsInfo(
                 ShipInfo(

@@ -1,11 +1,8 @@
 package com.fkocak.spacedelivery.views.navigationScreen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +19,7 @@ import com.fkocak.spacedelivery.views.navigationScreen.favorite.FavoriteScreenVi
 import com.fkocak.spacedelivery.views.navigationScreen.station.StationScreenView
 
 @Composable
-fun NavigationScreenView() {
+fun NavigationScreenView(navControllerRoot: NavHostController) {
 
     val navController = rememberNavController()
 
@@ -37,7 +34,7 @@ fun NavigationScreenView() {
             }
         }
     ) {
-        BottomBarMain(navController)
+        BottomBarMain(navController, navControllerRoot)
     }
 }
 
@@ -48,11 +45,11 @@ private fun currentRoute(navController: NavHostController): String? {
 }
 
 @Composable
-fun BottomBarMain(navController: NavHostController) {
+fun BottomBarMain(navController: NavHostController, navControllerRoot: NavHostController) {
     NavHost(navController = navController, startDestination = STATION_SCREEN.routes) {
         // redirect to Home screen
         composable(STATION_SCREEN.routes) {
-            StationScreenView()
+            StationScreenView(navControllerRoot)
         }
         // redirect to profile screen
         composable(FAVORITE_SCREEN.routes) {
