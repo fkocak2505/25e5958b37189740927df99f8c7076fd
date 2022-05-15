@@ -94,7 +94,7 @@ var sCurrentStationInfo: Stations? by mutableStateOf(null)
 /**
  * Travellable Stations List..
  */
-var sTravellableStationList = mutableStateListOf<Stations>()
+var sTravellableStationList = mutableStateListOf<Stations>().toMutableList()
 
 /**
  * Favorites Stations List..

@@ -18,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.fkocak.spacedelivery.component.toolbar.SDToolbar
 import com.fkocak.spacedelivery.data.model.Response4Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 import com.fkocak.spacedelivery.ui.theme.*
 import com.fkocak.spacedelivery.utils.stateVals.sAllStationData
+import com.fkocak.spacedelivery.utils.stateVals.sFavoriteStationList
 
 @Composable
 fun FavoriteScreenView() {
@@ -60,9 +62,9 @@ fun FavoriteScreenView() {
                     bottom.linkTo(parent.bottom)
                 }
         ) {
-            itemsIndexed(items = sAllStationData,
+            itemsIndexed(items = sFavoriteStationList,
                 key = { index, item ->
-                    item.stationId!!
+                    item.name!!
                 }
             ) { rowIndex, rowItem ->
                 drawElement(rowItem)
@@ -73,7 +75,7 @@ fun FavoriteScreenView() {
 }
 
 @Composable
-fun drawElement(rowItem: Response4Stations) {
+fun drawElement(rowItem: Stations4RoomDB) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -91,6 +93,8 @@ fun drawElement(rowItem: Response4Stations) {
             ) {
                 Text(text = rowItem.name!!, style = typography.h6)
                 Text(text = rowItem.stock.toString(), style = typography.caption)
+                Text(text = "Koordinat: ${rowItem.coordinateX}/${rowItem.coordinateY}", style = typography.caption)
+                Text(text = rowItem.distance.toString(), style = typography.caption)
             }
         }
     }

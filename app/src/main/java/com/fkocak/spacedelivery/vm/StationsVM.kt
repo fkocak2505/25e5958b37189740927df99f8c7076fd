@@ -126,6 +126,7 @@ constructor(private val spaceDeliveryRepositories: SpaceDeliveryRepositories) : 
     fun getFavoriteStationListFromRoomDB() {
         AppCoroutines.io {
             val listOfFavoriteStation = spaceDeliveryRepositories.fetchFavoriteStationsFromCached()
+            Timber.i("Working on ---> ${Thread.currentThread().name} & handle insertion favorites station list..")
             withContext(SpaceDeliveryCoroutineDispatcherProvider.Main()) {
                 sFavoriteStationDataResultFromDB.value = ApiStateView.Success(listOfFavoriteStation)
             }

@@ -46,7 +46,7 @@ fun SDHorizontalStationListItem(
 
     val stationsVM: StationsVM = hiltViewModel()
 
-    stationsVM.getFavoriteStationListFromRoomDB()
+//    stationsVM.getFavoriteStationListFromRoomDB()
 
     prepareVMListener(context = context, stationsVM = stationsVM)
 
@@ -156,7 +156,9 @@ fun SDHorizontalStationListItem(
             }
 
 
-            SDFavoriteButton(modifier = Modifier
+            SDFavoriteButton(
+                items = items,
+                modifier = Modifier
                 .padding(6.dp)
                 .size(25.dp)
                 .constrainAs(bFavorite) {
@@ -200,12 +202,16 @@ private fun addFavoriteItem2List(items: Stations) {
                 items.distance?.value
             )
         )
+
+        items.isAddedFavorite?.value = true
+
     }
 }
 
 private fun removeFavoriteItem2List(items: Stations) {
     val findItems = sFavoriteStationList.find { it.name == items.name }
     sFavoriteStationList.remove(findItems)
+    items.isAddedFavorite?.value = false
 }
 
 
@@ -324,14 +330,14 @@ private fun prepareVMListener(context: Context, stationsVM: StationsVM) {
         else -> {}
     }
 
-    when (stationsVM.sFavoriteStationDataResultFromDB.value) {
-        is ApiStateView.Success -> {
-            val response =
-                ((stationsVM.sFavoriteStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Stations4RoomDB>
-
-            sFavoriteStationList = response
-        }
-        is ApiStateView.Error -> {}
-        else -> {}
-    }
+//    when (stationsVM.sFavoriteStationDataResultFromDB.value) {
+//        is ApiStateView.Success -> {
+//            val response =
+//                ((stationsVM.sFavoriteStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Stations4RoomDB>
+//
+//            sFavoriteStationList = response
+//        }
+//        is ApiStateView.Error -> {}
+//        else -> {}
+//    }
 }

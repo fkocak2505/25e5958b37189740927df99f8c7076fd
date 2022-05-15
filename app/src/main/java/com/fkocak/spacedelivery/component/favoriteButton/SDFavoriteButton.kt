@@ -13,17 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.fkocak.spacedelivery.data.model.Stations
 import com.fkocak.spacedelivery.ui.theme.BACKGROUND_HALF_WHITE
 import com.fkocak.spacedelivery.ui.theme.LOGO_LIGHT_BLUE
 
 @Composable
 fun SDFavoriteButton(
+    items: Stations,
     modifier: Modifier,
     color: Color = LOGO_LIGHT_BLUE,
     onAddedFavorite: (Boolean) -> Unit
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(items.isAddedFavorite?.value!!) }
 
     val iconModifier = Modifier.padding(8.dp)
 

@@ -22,6 +22,7 @@ import com.fkocak.spacedelivery.constant.returnWorld
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.data.model.Stations
+import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 import com.fkocak.spacedelivery.ui.theme.Purple200
 import com.fkocak.spacedelivery.utils.ApiStateView
 import com.fkocak.spacedelivery.utils.stateVals.*
@@ -89,9 +90,7 @@ private fun prepareVMListener(stationsVM: StationsVM) {
 
             sAllStationData = allStationData
 
-            setCurrentStation()
-
-
+            stationsVM.getFavoriteStationListFromRoomDB()
         }
         is ApiStateView.Error -> {
             val msg = ((stationsVM.sAllStationDataResult.value) as ApiStateView.Error).error
@@ -114,6 +113,20 @@ private fun prepareVMListener(stationsVM: StationsVM) {
         }
         else -> {}
     }
+
+    when (stationsVM.sFavoriteStationDataResultFromDB.value) {
+        is ApiStateView.Success -> {
+            val shipInfo =
+                ((stationsVM.sFavoriteStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Stations4RoomDB>
+            sFavoriteStationList = shipInfo
+
+            setCurrentStation()
+        }
+        is ApiStateView.Error -> {
+
+        }
+        else -> {}
+    }
 }
 
 private fun setCurrentStation() {
@@ -121,21 +134,66 @@ private fun setCurrentStation() {
 
 //    sAllStationData.removeAt(0)
 
+//    run breaking@ {
+//        nums.forEach {
+//            if (it == 5) return@breaking
+//            println(it)
+//        }
+//    }
+
     sAllStationData.forEachIndexed { index, response4Stations ->
-        if(index != 0){
-            sTravellableStationList.add(
-                Stations(
-                    response4Stations.coordinateY,
-                    response4Stations.coordinateX,
-                    mutableStateOf(response4Stations.need!!),
-                    response4Stations.name,
-                    mutableStateOf(response4Stations.stock!!),
-                    response4Stations.capacity,
-                    mutableStateOf(response4Stations.need != 0),
-                    mutableStateOf(false),
-                    mutableStateOf(abs(response4Stations.coordinateX?.toInt()!!) + abs(response4Stations.coordinateY?.toInt()!!))
+
+        var isFavorite = false
+
+        if (index != 0) {
+            if (sFavoriteStationList.isNotEmpty()) {
+
+
+                sFavoriteStationList.forEachIndexed { index, stations4RoomDB ->
+                    if (stations4RoomDB.name == response4Stations.name) {
+                        isFavorite = true
+                    }
+
+                }
+
+                sTravellableStationList.add(
+                    Stations(
+                        response4Stations.coordinateY,
+                        response4Stations.coordinateX,
+                        mutableStateOf(response4Stations.need!!),
+                        response4Stations.name,
+                        mutableStateOf(response4Stations.stock!!),
+                        response4Stations.capacity,
+                        mutableStateOf(response4Stations.need != 0),
+                        mutableStateOf(isFavorite),
+                        mutableStateOf(
+                            abs(response4Stations.coordinateX?.toInt()!!) + abs(
+                                response4Stations.coordinateY?.toInt()!!
+                            )
+                        )
+                    )
                 )
-            )
+
+
+            } else {
+                sTravellableStationList.add(
+                    Stations(
+                        response4Stations.coordinateY,
+                        response4Stations.coordinateX,
+                        mutableStateOf(response4Stations.need!!),
+                        response4Stations.name,
+                        mutableStateOf(response4Stations.stock!!),
+                        response4Stations.capacity,
+                        mutableStateOf(response4Stations.need != 0),
+                        mutableStateOf(false),
+                        mutableStateOf(
+                            abs(response4Stations.coordinateX?.toInt()!!) + abs(
+                                response4Stations.coordinateY?.toInt()!!
+                            )
+                        )
+                    )
+                )
+            }
         }
     }
 }
