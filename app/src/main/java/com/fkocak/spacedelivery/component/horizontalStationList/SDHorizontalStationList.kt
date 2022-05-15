@@ -19,7 +19,7 @@ fun SDHorizontalStationList(
     ) {
         itemsIndexed(items = sAllStationData,
             key = { index, item ->
-                item.stationId!!
+                item.name!!
             }
         ) { rowIndex, rowItem ->
 

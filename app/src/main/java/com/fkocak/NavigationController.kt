@@ -41,7 +41,7 @@ fun NavigationController() {
         startDestination = SPLASH.routes
     ) {
 
-        stationsVM.getAllStationsFromRoomDB()
+        stationsVM.getAllStationsFromApi()
         stationsVM.getSpaceShipInfoFromRoomDB()
 
         // Splash Compose
@@ -74,21 +74,6 @@ fun NavigationController() {
 private fun prepareVMListener(stationsVM: StationsVM) {
 
     var context = LocalContext.current
-
-    when (stationsVM.sAllStationDataResultFromDB.value) {
-        is ApiStateView.Success -> {
-            val allStationData =
-                ((stationsVM.sAllStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Response4Stations>
-
-            sAllStationData = allStationData
-
-        }
-        is ApiStateView.Error -> {
-            Timber.i("All Station data is null from DB. Requesting Api Now..")
-            stationsVM.getAllStationsFromApi()
-        }
-        else -> {}
-    }
 
     when (stationsVM.sAllStationDataResult.value) {
         is ApiStateView.Loading -> {
