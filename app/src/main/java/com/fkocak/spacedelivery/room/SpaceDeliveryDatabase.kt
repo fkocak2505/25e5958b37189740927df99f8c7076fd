@@ -17,7 +17,7 @@ import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 @TypeConverters(RoomsConvertor::class)
 @Database(
     entities = [Response4Stations::class, ShipInfo::class, Stations4RoomDB::class],
-    version = 22,
+    version = 23,
     exportSchema = false
 )
 abstract class SpaceDeliveryDatabase : RoomDatabase() {
