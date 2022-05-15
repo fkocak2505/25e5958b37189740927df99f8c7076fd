@@ -167,6 +167,10 @@ fun CreateSpaceShipScreenView(
                     end.linkTo(parent.end, MARGIN_15)
                 }
         ) {
+
+            sShipInfoData =
+                ShipInfo(sShipName, sShipDurability, sShipSpeed, sShipCapacity, DAMAGE_CAPACITY)
+
             checkAllObligatoryField(
                 stationsVM = stationsVM,
                 context = context,
@@ -218,11 +222,6 @@ private fun prepareVMListener(stationsVM: StationsVM) {
 
     when (stationsVM.resultOfInsertShipsInfo.value) {
         is ApiStateView.Success -> {
-            Toast.makeText(
-                context,
-                "Uzay aracınızın bilgileri başarılı bir şekilde kaydedildi..",
-                Toast.LENGTH_SHORT
-            ).show()
 
         }
         is ApiStateView.Error -> {

@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -20,20 +17,18 @@ import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.SDButton
 import com.fkocak.spacedelivery.component.favoriteButton.SDFavoriteButton
 import com.fkocak.spacedelivery.component.text.SDText
+import com.fkocak.spacedelivery.constant.DAMAGE_CAPACITY
 import com.fkocak.spacedelivery.constant.ScreensNavigation.CREATE_SPACE_SHIP
 import com.fkocak.spacedelivery.constant.calculateDistanceBetweenEachOther
-import com.fkocak.spacedelivery.constant.calculateRemainingDurabilitySecond
 import com.fkocak.spacedelivery.constant.returnWorld
+import com.fkocak.spacedelivery.constant.setCurrentStation
 import com.fkocak.spacedelivery.data.model.Response4Stations
-import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.data.model.Stations
 import com.fkocak.spacedelivery.data.model.Stations4RoomDB
 import com.fkocak.spacedelivery.ui.theme.*
 import com.fkocak.spacedelivery.utils.ApiStateView
 import com.fkocak.spacedelivery.utils.stateVals.*
 import com.fkocak.spacedelivery.vm.StationsVM
-import kotlinx.coroutines.delay
-import kotlin.math.abs
 
 @Composable
 fun SDHorizontalStationListItem(
@@ -48,7 +43,7 @@ fun SDHorizontalStationListItem(
 
 //    stationsVM.getFavoriteStationListFromRoomDB()
 
-    prepareVMListener(context = context, stationsVM = stationsVM)
+    prepareVMListener(context = context, stationsVM = stationsVM, navController = navController)
 
     Card(
         modifier = modifier,
@@ -150,7 +145,7 @@ fun SDHorizontalStationListItem(
             ) {
 
                 if (items.isHasCapacity?.value!!)
-                    goTravellingOtherStation(context, navController, items)
+                    goTravellingOtherStation(context, navController, items, stationsVM)
                 else
                     Toast.makeText(context, "Seyahat Edemezsin..", Toast.LENGTH_SHORT).show()
             }
@@ -159,12 +154,12 @@ fun SDHorizontalStationListItem(
             SDFavoriteButton(
                 items = items,
                 modifier = Modifier
-                .padding(6.dp)
-                .size(25.dp)
-                .constrainAs(bFavorite) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                }) {
+                    .padding(6.dp)
+                    .size(25.dp)
+                    .constrainAs(bFavorite) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                    }) {
                 if (it) {
                     items.isAddedFavorite?.value = true
                     addFavoriteItem2List(items)
@@ -218,7 +213,8 @@ private fun removeFavoriteItem2List(items: Stations) {
 private fun goTravellingOtherStation(
     context: Context,
     navController: NavHostController,
-    items: Stations
+    items: Stations,
+    stationsVM: StationsVM
 ) {
 
     if (sUGS < items.need?.value!!)
@@ -243,7 +239,7 @@ private fun goTravellingOtherStation(
         sCurrentStationInfo = items
     }
 
-    checkSomeRules(context, navController)
+    checkSomeRules(context, navController, stationsVM)
 
 
 //    if (sRemaningDurabilitySeconds < items.distance?.value!!) {
@@ -259,7 +255,11 @@ private fun goTravellingOtherStation(
 
 }
 
-private fun checkSomeRules(context: Context, navController: NavHostController) {
+private fun checkSomeRules(
+    context: Context,
+    navController: NavHostController,
+    stationsVM: StationsVM
+) {
 
     val hasTravelableStation = sTravellableStationList.find { it.isHasCapacity?.value!! }
     hasTravelableStation?.let {
@@ -271,8 +271,10 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
                 Toast.LENGTH_SHORT
             ).show()
 
-            returnWorld()
-            navController.popBackStack(route = CREATE_SPACE_SHIP.routes, inclusive = false)
+            sTimerStatus = 2
+            sShipDamageCapacity = DAMAGE_CAPACITY
+            stationsVM.getAllStationsFromApi()
+//            navController.popBackStack(route = CREATE_SPACE_SHIP.routes, inclusive = false)
 
         } else {
             if (sEUS == 0) {
@@ -282,8 +284,9 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                returnWorld()
-                navController.popBackStack()
+                sTimerStatus = 2
+                sShipDamageCapacity = DAMAGE_CAPACITY
+                stationsVM.getAllStationsFromApi()
 
             } else {
 
@@ -294,8 +297,9 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    returnWorld()
-                    navController.popBackStack()
+                    sTimerStatus = 2
+                    sShipDamageCapacity = DAMAGE_CAPACITY
+                    stationsVM.getAllStationsFromApi()
                 } else {
                 }
             }
@@ -309,14 +313,19 @@ private fun checkSomeRules(context: Context, navController: NavHostController) {
         ).show()
         // TO DO
 
-        returnWorld()
-        navController.popBackStack()
+        sTimerStatus = 2
+        sShipDamageCapacity = DAMAGE_CAPACITY
+        stationsVM.getAllStationsFromApi()
 
     }
 }
 
 @Composable
-private fun prepareVMListener(context: Context, stationsVM: StationsVM) {
+private fun prepareVMListener(
+    context: Context,
+    stationsVM: StationsVM,
+    navController: NavHostController
+) {
     when (stationsVM.resultOfInsertFavoriteList.value) {
         is ApiStateView.Success -> {
             Toast.makeText(
@@ -330,14 +339,25 @@ private fun prepareVMListener(context: Context, stationsVM: StationsVM) {
         else -> {}
     }
 
-//    when (stationsVM.sFavoriteStationDataResultFromDB.value) {
-//        is ApiStateView.Success -> {
-//            val response =
-//                ((stationsVM.sFavoriteStationDataResultFromDB.value) as ApiStateView.Success).any as MutableList<Stations4RoomDB>
-//
-//            sFavoriteStationList = response
-//        }
-//        is ApiStateView.Error -> {}
-//        else -> {}
-//    }
+    when (stationsVM.sAllStationDataResult.value) {
+        is ApiStateView.Loading -> {}
+        is ApiStateView.Success -> {
+            val allStationData =
+                ((stationsVM.sAllStationDataResult.value) as ApiStateView.Success).any as MutableList<Response4Stations>
+
+            sAllStationData = allStationData
+            sTravellableStationList = mutableListOf()
+            setCurrentStation()
+
+            navController.popBackStack(route = CREATE_SPACE_SHIP.routes, inclusive = false)
+        }
+        is ApiStateView.Error -> {
+            val msg = ((stationsVM.sAllStationDataResult.value) as ApiStateView.Error).error
+            Toast.makeText(
+                context,
+                msg,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 }

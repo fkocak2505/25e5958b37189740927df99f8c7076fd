@@ -52,3 +52,42 @@ fun returnWorld(){
         mutableStateOf(abs(currentStationObj.coordinateX?.toInt()!!) + abs(currentStationObj.coordinateY?.toInt()!!))
     )
 }
+
+fun setCurrentStation() {
+    returnWorld()
+
+    sAllStationData.forEachIndexed { index, response4Stations ->
+
+        var isFavorite = false
+
+        if (index != 0) {
+
+            sFavoriteStationList.forEachIndexed { _, stations4RoomDB ->
+                if (stations4RoomDB.name == response4Stations.name) {
+                    isFavorite = true
+                }
+
+            }
+            sTravellableStationList.add(
+                Stations(
+                    response4Stations.coordinateY,
+                    response4Stations.coordinateX,
+                    mutableStateOf(response4Stations.need!!),
+                    response4Stations.name,
+                    mutableStateOf(response4Stations.stock!!),
+                    response4Stations.capacity,
+                    mutableStateOf(response4Stations.need != 0),
+                    mutableStateOf(isFavorite),
+                    mutableStateOf(
+                        abs(response4Stations.coordinateX?.toInt()!!) + abs(
+                            response4Stations.coordinateY?.toInt()!!
+                        )
+                    )
+                )
+            )
+
+
+        }
+
+    }
+}

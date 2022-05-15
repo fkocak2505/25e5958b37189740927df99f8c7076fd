@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fkocak.spacedelivery.constant.ScreensNavigation.*
 import com.fkocak.spacedelivery.constant.returnWorld
+import com.fkocak.spacedelivery.constant.setCurrentStation
 import com.fkocak.spacedelivery.data.model.Response4Stations
 import com.fkocak.spacedelivery.data.model.ShipInfo
 import com.fkocak.spacedelivery.data.model.Stations
@@ -129,53 +130,6 @@ private fun prepareVMListener(stationsVM: StationsVM) {
     }
 }
 
-private fun setCurrentStation() {
-    returnWorld()
-
-//    sAllStationData.removeAt(0)
-
-//    run breaking@ {
-//        nums.forEach {
-//            if (it == 5) return@breaking
-//            println(it)
-//        }
-//    }
-
-    sAllStationData.forEachIndexed { index, response4Stations ->
-
-        var isFavorite = false
-
-        if (index != 0) {
-
-            sFavoriteStationList.forEachIndexed { index, stations4RoomDB ->
-                if (stations4RoomDB.name == response4Stations.name) {
-                    isFavorite = true
-                }
-
-            }
-            sTravellableStationList.add(
-                Stations(
-                    response4Stations.coordinateY,
-                    response4Stations.coordinateX,
-                    mutableStateOf(response4Stations.need!!),
-                    response4Stations.name,
-                    mutableStateOf(response4Stations.stock!!),
-                    response4Stations.capacity,
-                    mutableStateOf(response4Stations.need != 0),
-                    mutableStateOf(isFavorite),
-                    mutableStateOf(
-                        abs(response4Stations.coordinateX?.toInt()!!) + abs(
-                            response4Stations.coordinateY?.toInt()!!
-                        )
-                    )
-                )
-            )
-
-
-        }
-
-    }
-}
 
 @Composable
 fun SpaceDeliveryProgressBar() {

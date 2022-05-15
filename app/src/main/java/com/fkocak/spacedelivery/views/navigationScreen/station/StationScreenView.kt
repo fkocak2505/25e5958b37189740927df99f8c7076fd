@@ -2,10 +2,7 @@ package com.fkocak.spacedelivery.views.navigationScreen.station
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,7 +25,9 @@ import androidx.navigation.NavHostController
 import com.fkocak.spacedelivery.component.horizontalStationList.SDHorizontalStationList
 import com.fkocak.spacedelivery.component.text.SDText
 import com.fkocak.spacedelivery.component.textField.SDTextField
+import com.fkocak.spacedelivery.component.timer.SDCountDown
 import com.fkocak.spacedelivery.component.toolbar.SDToolbar
+import com.fkocak.spacedelivery.constant.calculateRemainingDurabilitySecond
 import com.fkocak.spacedelivery.constant.calculateTotalScore
 import com.fkocak.spacedelivery.ui.theme.*
 import com.fkocak.spacedelivery.utils.stateVals.*
@@ -36,6 +35,8 @@ import com.fkocak.spacedelivery.views.navigationScreen.favorite.drawElement
 
 @Composable
 fun StationScreenView(navController: NavHostController) {
+
+    sTimerStatus = 1
 
     ConstraintLayout(
         modifier = Modifier
@@ -140,18 +141,34 @@ fun StationScreenView(navController: NavHostController) {
                 }
         )
 
-        SDText(
-            text = "Kalan Süre: ${sRemaningDurabilitySeconds}sn",
-            style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
-            maxLine = 1,
-            color = TEXT_COLOR_BLACK,
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(tEUSInfo) {
-                    top.linkTo(tDamageCapacity.bottom, MARGIN_3)
-                    start.linkTo(parent.start, MARGIN_10)
-                }
-        )
+//        SDText(
+//            text = "Kalan Süre: ${sRemaningDurabilitySeconds}sn",
+//            style = TypeOfFont.poppinsRegularStyle(TEXT_SIZE_14, TextAlign.Start),
+//            maxLine = 1,
+//            color = TEXT_COLOR_BLACK,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .constrainAs(tEUSInfo) {
+//                    top.linkTo(tDamageCapacity.bottom, MARGIN_3)
+//                    start.linkTo(parent.start, MARGIN_10)
+//                }
+//        )
+
+        if (sTimerStatus == 1 || sTimerStatus == 2)
+            SDCountDown(
+                navController = navController,
+                totalTime = sRemaningDurabilitySeconds * 1000L,
+                handleColor = LOGO_LIGHT_BLUE,
+                inactiveBarColor = Color.White,
+                activeBarColor = LOGO_DARK_BLUE,
+                modifier = Modifier
+                    .size(70.dp)
+                    .constrainAs(tEUSInfo) {
+                        top.linkTo(tDamageCapacity.bottom, MARGIN_3)
+                        start.linkTo(parent.start, MARGIN_10)
+                        end.linkTo(parent.end, MARGIN_10)
+                    }
+            )
 
         SDTextField(
             isSearch = true,
@@ -189,6 +206,8 @@ fun StationScreenView(navController: NavHostController) {
                     start.linkTo(parent.start, MARGIN_10)
                 }
         )
+
+
     }
 
 }

@@ -101,4 +101,11 @@ var sTravellableStationList = mutableStateListOf<Stations>().toMutableList()
  */
 var sFavoriteStationList = mutableStateListOf<Stations4RoomDB>().toMutableList()
 
+/**
+ * Timer isFinished State..
+ */
+var sTimerStatus: Int by mutableStateOf(0)
+
+//var sCurrentTime: Long by mutableStateOf(0L)
+
 
