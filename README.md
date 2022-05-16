@@ -54,10 +54,3 @@ kodlandı
 - İki çeşit ApiState' imiz mevcut. Proje' de yer alan **ApiState** sınıfı generic bir sınıf olan request sonucu dönen data için OnSuccess ve OnFailure methodları içermekte. Generic olarak Repository katmanına gelen
 datayı döndürmektedir.
 - **ApiViewState** ise repository' e gelen data' yı ya da RoomDB' den gelen datayı View katmanına ileten state yapımızdır.
-
-# Screenshots
-![Screenshot1] https://github.com/fkocak2505/25e5958b37189740927df99f8c7076fd/tree/main/screenshots/splash_screen.png?raw=true
-![Screenshot1] https://github.com/fkocak2505/25e5958b37189740927df99f8c7076fd/tree/main/screenshots/create_space_ship.png?raw=true
-![Screenshot1] https://github.com/fkocak2505/25e5958b37189740927df99f8c7076fd/tree/main/screenshots/stations_travelling.png?raw=true
-![Screenshot1] https://github.com/fkocak2505/25e5958b37189740927df99f8c7076fd/tree/main/screenshots/stations_travelling_2.png?raw=true
-![Screenshot1] https://github.com/fkocak2505/25e5958b37189740927df99f8c7076fd/tree/main/screenshots/favorites.png?raw=true
